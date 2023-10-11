@@ -1,8 +1,10 @@
 import React from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 type Event = {
+  Name:string,
   username: string;
   password: string;
   email: string;
@@ -10,6 +12,7 @@ type Event = {
 };
 export default function Signup() {
   const [inputValue, setInputValue] = React.useState<Event>({
+    Name:"",
     username: "",
     password: "",
     email: "",
@@ -22,38 +25,55 @@ export default function Signup() {
     const passwordRegex = /^[a-zA-Z0-9]{4,}$/;
 
     if (!emailRegex.test(inputValue.email)) {
-      alert("Invalid email");
+      Swal.fire(
+        '',
+        'Invalid email',
+        'error'
+      )    
 
       return;
     }
 
     if (!passwordRegex.test(inputValue.password)) {
-      alert("Invalid password");
+      Swal.fire(
+        '',
+        'Invalid password',
+        'error'
+      )          
       return;
     }
-    if (inputValue.username && inputValue.password && inputValue.email) {
+    if (inputValue.Name && inputValue.username && inputValue.password && inputValue.email) {
       axios
         .post("https://64e1142f50713530432cee2a.mockapi.io/login", {
+          Name: inputValue.Name,
           username: inputValue.username,
           password: inputValue.password,
           email: inputValue.email,
         })
         .then(() => {
-          alert("Signup successful!");
-        });
+          Swal.fire(
+            '',
+            'Signup successful',
+            'success'
+          )            });
+      localStorage.setItem("Name", inputValue.Name);
       navgit("/login");
     } else {
-      alert("some fields missed.");
+      Swal.fire(
+        '',
+        'some fields are missed',
+        'error'
+      )    
     }
   };
 
   return (
     <div>
-      <div className="h-screen flex justify-center">
-        <div className=" lg:flex w-1/4 justify-around items-center">
+      <div className="h-screen flex max-sm:flex-col justify-center">
+        <div className=" lg:flex w-1/4 max-sm:w-auto max-sm:h-20 max-sm:justify-center justify-around max-sm:flex items-center">
           <svg
             viewBox="0 0 24 24"
-            className="h-80 w-96 text-blue-500 ml-3 my-3"
+            className="h-80 w-96 max-sm:w-16 text-blue-500 ml-3 my-3"
             fill="currentColor"
           >
             <g>
@@ -64,14 +84,28 @@ export default function Signup() {
         <div className="flex w-full lg:w-1/2 justify-center items-center bg-white space-y-8">
           <div className="w-full px-8 md:px-32 lg:px-24">
             <div className="bg-white rounded-md shadow-2xl p-5">
-              <h1 className="text-gray-800 font-bold text-4xl mb-10">
+              <h1 className="text-gray-800 max-sm:ml-16 max-sm:text-lg font-bold text-4xl mb-10">
                 Sign up to Twitter
               </h1>
 
               <div className="flex items-center border-2 mb-8 py-2 px-3 rounded-2xl">
                 <input
+                  id="Name"
+                  className=" pl-2 w-full  max-sm:text-sm outline-none border-none"
+                  type="text"
+                  name="Name"
+                  placeholder="Name"
+                  value={inputValue.Name}
+                  onChange={(e) => {
+                    setInputValue({ ...inputValue, Name: e.target.value });
+                  }}
+                />
+              </div>
+
+              <div className="flex items-center border-2 mb-8 py-2 px-3 rounded-2xl">
+                <input
                   id="username"
-                  className=" pl-2 w-full outline-none border-none"
+                  className=" pl-2 w-full  max-sm:text-sm outline-none border-none"
                   type="text"
                   name="username"
                   placeholder="username"
@@ -85,7 +119,7 @@ export default function Signup() {
               <div className="flex items-center border-2 mb-8 py-2 px-3 rounded-2xl">
                 <input
                   id="email"
-                  className=" pl-2 w-full outline-none border-none"
+                  className=" pl-2 w-full  max-sm:text-sm outline-none border-none"
                   type="email"
                   name="email"
                   placeholder="Email Address"
@@ -98,7 +132,7 @@ export default function Signup() {
 
               <div className="flex items-center border-2 mb-12 py-2 px-3 rounded-2xl ">
                 <input
-                  className="pl-2 w-full outline-none border-none"
+                  className="pl-2 w-full  max-sm:text-sm outline-none border-none"
                   type="password"
                   name="password"
                   id="password"
@@ -113,15 +147,15 @@ export default function Signup() {
               <button
                 onClick={logIn}
                 type="submit"
-                className="block w-full bg-blue-500 mt-5 py-2 rounded-2xl hover:bg-blue-300 hover:-translate-y-1 transition-all duration-500 text-white font-semibold mb-2"
+                className="block w-full max-sm:w-40 max-sm:ml-14 bg-blue-500 mt-5 py-2 rounded-2xl hover:bg-blue-300 hover:-translate-y-1 transition-all duration-500 text-white font-semibold mb-2"
               >
                 Sign up
               </button>
               <div className="flex justify-center  mt-4">
-                <p className="text-sm ml-2">Already have an account? </p>{" "}
+                <p className="text-sm max-sm:text-xs ml-2">Already have an account? </p>{" "}
                 <a
                   href="/login"
-                  className="text-sm ml-2 hover:text-blue-500 cursor-pointer hover:-translate-y-1 duration-500 transition-all"
+                  className="text-sm ml-2 max-sm:text-xs hover:text-blue-500 cursor-pointer hover:-translate-y-1 duration-500 transition-all"
                 >
                   Log in
                 </a>

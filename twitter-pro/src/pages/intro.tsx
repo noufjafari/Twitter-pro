@@ -11,7 +11,7 @@ export default function intro() {
   }, []);
 
   return (
-    <div className="bg-[#5BA8E2] h-screen flex justify-center">
+    <div className="bg-[#5BA8E2] h-screen max-sm:w-fit flex justify-center">
       <img className="w-8/12" src={videobg} />
     </div>
   );

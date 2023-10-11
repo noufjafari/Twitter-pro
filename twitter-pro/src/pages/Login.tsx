@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default function login() {
   const [username, setUsername] = React.useState("");
@@ -20,20 +21,30 @@ export default function login() {
 
       if (User) {
         setLoggedIn(true);
-        navg("/Homepage");
+        localStorage.setItem("UName", User.username);
+        Swal.fire(
+          '',
+          'Login successful',
+          'success'
+        )        
+         navg("/Homepage");
       } else {
-        alert("Invalid input");
+        Swal.fire(
+          '',
+          'Invalid must filled',
+          'error'
+        ) 
       }
     });
   };
 
   return (
     <div>
-      <div className="h-screen flex justify-center">
-        <div className=" lg:flex w-1/4 justify-around items-center">
+      <div className="h-screen max-sm:gap-7 flex max-sm:flex-col content-center justify-center">
+        <div className=" lg:flex w-1/4  max-sm:w-auto max-sm:h-20 max-sm:justify-center justify-around max-sm:flex items-center">
           <svg
             viewBox="0 0 24 24"
-            className="h-80 w-96 text-blue-500 ml-3 my-3"
+            className="h-80 w-96 max-sm:w-16 text-blue-500 ml-3 my-3"
             fill="currentColor"
           >
             <g>
@@ -44,14 +55,14 @@ export default function login() {
         <div className="flex  lg:w-1/2 justify-center items-center bg-white space-y-8">
           <div className="w-full px-8 md:px-32 lg:px-24">
             <div className="bg-white rounded-md shadow-2xl p-5">
-              <h1 className="text-gray-800 font-bold text-4xl mb-10">
+              <h1 className="text-gray-800 font-bold max-sm:ml-16 max-sm:text-lg text-4xl mb-10">
                 Log in to Twitter
               </h1>
 
               <div className="flex items-center border-2 mb-8 py-2 px-3 rounded-2xl">
                 <input
                   id="username"
-                  className=" pl-2 w-full outline-none border-none"
+                  className=" pl-2 w-full max-sm:text-sm outline-none border-none"
                   type="text"
                   name="username"
                   placeholder="Username"
@@ -64,7 +75,7 @@ export default function login() {
 
               <div className="flex items-center border-2 mb-12 py-2 px-3 rounded-2xl ">
                 <input
-                  className="pl-2 w-full outline-none border-none"
+                  className="pl-2 w-full max-sm:text-sm outline-none border-none"
                   type="password"
                   name="password"
                   id="password"
@@ -78,15 +89,15 @@ export default function login() {
 
               <button
                 onClick={handleLogin}
-                className="block w-full bg-blue-500 mt-5 py-2 rounded-2xl hover:bg-blue-300 hover:-translate-y-1 transition-all duration-500 text-white font-semibold mb-2"
+                className="block w-full max-sm:w-40 max-sm:ml-14 bg-blue-500 mt-5 py-2 rounded-2xl hover:bg-blue-300 hover:-translate-y-1 transition-all duration-500 text-white font-semibold mb-2"
               >
                 Login
               </button>
               <div className="flex justify-center  mt-4">
-                <p className="text-sm ml-2">Don't have an account yet?</p>
+                <p className="text-sm max-sm:text-xs ml-2">Don't have an account yet?</p>
                 <a
                   href="/Signup"
-                  className="text-sm ml-2 hover:text-blue-500 cursor-pointer hover:-translate-y-1 duration-500 transition-all"
+                  className="text-sm ml-2 max-sm:text-xs hover:text-blue-500 cursor-pointer hover:-translate-y-1 duration-500 transition-all"
                 >
                   Sign up
                 </a>
